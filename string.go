@@ -54,6 +54,12 @@ func NewStringFloat64(f float64) *String {
 	return &str
 }
 
+func NewStringBool(b bool) *String {
+	var str String
+	str.value = strconv.FormatBool(b)
+	return &str
+}
+
 func NewStringAny(f interface{}) *String {
 	var str *String
 	switch f.(type) {
@@ -65,7 +71,8 @@ func NewStringAny(f interface{}) *String {
 		str = NewStringInt64(f.(int64))
 	case float64:
 		str = NewStringFloat64(f.(float64))
-
+	case bool:
+		str = NewStringBool(f.(bool))
 	}
 	return str
 }
