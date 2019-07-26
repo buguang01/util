@@ -96,3 +96,8 @@ func (this *BaseData) MaxItem() (key, num int) {
 	}
 	return key, num
 }
+
+//Clear清数据
+func (this *BaseData) Clear() {
+	this.Data = make(map[int]int)
+}
