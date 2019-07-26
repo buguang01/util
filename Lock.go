@@ -17,3 +17,16 @@ func UsingWiter(lk *sync.RWMutex, f func()) {
 	defer lk.Unlock()
 	f()
 }
+
+//释放资源接口
+type IDisposable interface {
+
+	//释放资源
+	Dispose()
+}
+
+//离开作用域时，会释放资源
+func Using(obj IDisposable, f func()) {
+	defer obj.Dispose()
+	f()
+}
