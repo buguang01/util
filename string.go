@@ -327,3 +327,15 @@ func FirstCaseToUpper(str string, first bool) string {
 func ArrayToString(arrays []string) string {
 	return strings.Join(arrays, "")
 }
+
+//json化过的字符串
+type StringJson string
+
+func (this StringJson) MarshalJSON() ([]byte, error) {
+	return []byte(this), nil
+}
+
+func (this StringJson) UnmarshalJSON(v []byte) error {
+	this = StringJson(v)
+	return nil
+}
