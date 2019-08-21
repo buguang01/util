@@ -65,3 +65,18 @@ func GetMinDateTime() time.Time {
 		time.UTC)
 	return result
 }
+
+//Utc时间
+type TimeUtc struct {
+	time.Time
+}
+
+func (this TimeUtc) MarshalJSON() ([]byte, error) {
+	buf := NewStringInt64(this.Time.Unix()).ToString()
+	return []byte(buf), nil
+}
+
+func (this *TimeUtc) UnmarshalJSON(v []byte) error {
+	this.Time = time.Unix(NewString(string(v)).ToInt64V(), 0).UTC()
+	return nil
+}
