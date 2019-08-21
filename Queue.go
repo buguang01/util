@@ -96,45 +96,10 @@ func (queue *Queue) Poll() (interface{}, error) {
 	return queue.elements[tmp], nil
 }
 
-//标识UID的成员接口
-type IQueueUID interface {
-	GetUID() int        //在队列中的标识ID
-	SetUID(uid int) int //设置在队列中的标识ID
-}
-
-//加入的成员需要支持IQueueUID接口
-type QueueUID struct {
-	*Queue
-	curruid int //当前标识ID
-}
-
-//返回列表,需要成员继承IQueueUID接口
-func (queue *QueueUID) GetArray(uidmax int) (*[]interface{}, error) {
-	result := make([]interface{}, 0, queue.queueSize)
-	for index := 0; index < queue.currentCount; index++ {
-		tmp, ok := queue.elements[queue.Probe(queue.front+index)].(IQueueUID)
-		if !ok {
-			result = append(result, tmp)
-		}
-		if tmp.GetUID() > uidmax {
-			result = append(result, tmp)
-		}
+//拿当前成员
+func (queue *Queue) GetCurrElement() (interface{}, error) {
+	if queue.IsEmpty() == true {
+		return nil, errors.New("the queue is empty.")
 	}
-
-	return &result, nil
-}
-
-/**
-  入队
-*/
-func (queue *QueueUID) Offer(e IQueueUID) error {
-	if queue.IsFull() == true {
-		return errors.New("the queue is full.")
-	}
-	queue.curruid++
-	e.SetUID(queue.curruid)
-	queue.rear = queue.ProbeNext(queue.rear)
-	queue.elements[queue.rear] = e
-	queue.currentCount = queue.currentCount + 1
-	return nil
+	return queue.elements[queue.front], nil
 }
