@@ -28,3 +28,13 @@ func IntArrayToString(arr []int, sub string) string {
 	}
 	return sb.ToString()
 }
+
+//ArrayIndexof 数组查找，返回索引，-1为没找到
+func ArrayIndexof(array []int, v int) int {
+	for i, m := range array {
+		if m == v {
+			return i
+		}
+	}
+	return -1
+}
