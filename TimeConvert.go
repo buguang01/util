@@ -4,11 +4,17 @@ import (
 	"time"
 )
 
+var (
+	BeiJing     = time.FixedZone("CST", 8*3600)
+	UTCLocation = time.UTC
+	Location    = UTCLocation
+)
+
 //TimeConvert 时间操作类
 
 //GetCurrTime 当前UTC时间
 func GetCurrTime() time.Time {
-	return time.Now().UTC()
+	return time.Now().In(Location)
 }
 
 //GetCurrTimeSecond 当前UTC时间精确到秒
@@ -22,7 +28,7 @@ func GetCurrTimeSecond() time.Time {
 		result.Minute(),
 		result.Second(),
 		0,
-		time.UTC)
+		Location)
 	return result
 }
 
@@ -50,7 +56,7 @@ func GetDate(d time.Time) time.Time {
 		0,
 		0,
 		0,
-		time.UTC)
+		Location)
 	return result
 }
 func GetMinDateTime() time.Time {
@@ -62,8 +68,17 @@ func GetMinDateTime() time.Time {
 		0,
 		0,
 		0,
-		time.UTC)
+		Location)
 	return result
+}
+
+func UnixToTime(d int64) time.Time {
+	return time.Unix(d, 0).In(Location)
+}
+
+//设置获取的服务器时间的默认时区
+func SetLocation(loc *time.Location) {
+	Location = loc
 }
 
 //Utc时间
