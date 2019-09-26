@@ -43,7 +43,7 @@ func GetCurrDate() time.Time {
 		0,
 		0,
 		0,
-		time.UTC)
+		Location)
 	return result
 }
 
