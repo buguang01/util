@@ -18,6 +18,14 @@ type StringBuilder struct {
 	buffer bytes.Buffer
 }
 
+//NewStringBuilderCap 带容器长度的创建
+func NewStringBuilderCap(capnum int) *StringBuilder {
+	builder := StringBuilder{
+		buffer: *bytes.NewBuffer(make([]byte, 0, capnum)),
+	}
+	return &builder
+}
+
 func NewStringBuilder() *StringBuilder {
 	var builder StringBuilder
 	return &builder
