@@ -67,12 +67,14 @@ func NewStringAny(f interface{}) *String {
 		str = NewString(f.(string))
 	case int:
 		str = NewStringInt(f.(int))
-	case int64:
+	case int8, int16, int32, int64:
 		str = NewStringInt64(f.(int64))
-	case float64:
+	case float32, float64:
 		str = NewStringFloat64(f.(float64))
 	case bool:
 		str = NewStringBool(f.(bool))
+	case uint, uint8, uint16, uint32, uint64:
+		str = &String{value: (strconv.FormatUint(f.(uint64), 10))}
 	}
 	return str
 }
