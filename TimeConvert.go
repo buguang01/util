@@ -87,7 +87,7 @@ type TimeUtc struct {
 }
 
 func (this TimeUtc) MarshalJSON() ([]byte, error) {
-	buf := NewStringInt64(this.Time.Unix()).ToString()
+	buf := NewStringInt64(this.Unix()).ToString()
 	return []byte(buf), nil
 }
 
