@@ -82,6 +82,9 @@ func NewStringAny(f interface{}) *String {
 func (str *String) ToString() string {
 	return str.value
 }
+func (str *String) String() string {
+	return str.value
+}
 
 func (str *String) Clear() *String {
 	var newStr string
