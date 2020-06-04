@@ -2,6 +2,7 @@ package threads
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -103,6 +104,9 @@ func (this *ThreadGo) CloseWait() {
 
 //Go 在新前线程上跑
 func (this *ThreadGo) Go(f func(ctx context.Context)) {
+	if f == nil {
+		panic(errors.New("Go func is nil."))
+	}
 	this.Wg.Add(1)
 	GoTry(func() {
 		f(this.Ctx)
@@ -113,6 +117,9 @@ func (this *ThreadGo) Go(f func(ctx context.Context)) {
 
 //SubGo返回可关掉的子协程
 func (this *ThreadGo) SubGo(f func(ctx context.Context)) context.CancelFunc {
+	if f == nil {
+		panic(errors.New("Go func is nil."))
+	}
 	ctx, cal := context.WithCancel(this.Ctx)
 	this.Wg.Add(1)
 	GoTry(func() {
@@ -125,6 +132,9 @@ func (this *ThreadGo) SubGo(f func(ctx context.Context)) context.CancelFunc {
 
 //GoTry 在新协程上跑
 func (this *ThreadGo) GoTry(f func(ctx context.Context), catch func(interface{}), finally func()) {
+	if f == nil {
+		panic(errors.New("Go func is nil."))
+	}
 	this.Wg.Add(1)
 	GoTry(
 		func() {
@@ -141,6 +151,9 @@ func (this *ThreadGo) GoTry(f func(ctx context.Context), catch func(interface{})
 
 //Try 在当前协程上跑
 func (this *ThreadGo) Try(f func(ctx context.Context), catch func(interface{}), finally func()) {
+	if f == nil {
+		panic(errors.New("Go func is nil."))
+	}
 	this.Wg.Add(1)
 	Try(
 		func() {
@@ -156,6 +169,9 @@ func (this *ThreadGo) Try(f func(ctx context.Context), catch func(interface{}), 
 }
 
 func TimeoutGo(f func(), ticker time.Timer, timeoutfunc func()) {
+	if f == nil {
+		panic(errors.New("Go func is nil."))
+	}
 	result := make(chan struct{})
 
 	GoTry(f, nil, func() {
