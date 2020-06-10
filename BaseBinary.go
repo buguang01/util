@@ -1,5 +1,11 @@
 package util
 
+import (
+	"database/sql/driver"
+	"errors"
+	"fmt"
+)
+
 //BaseBinary DB上的2进制数据
 type BaseBinary struct {
 	Data          []uint8 //放数据的数组
@@ -87,7 +93,26 @@ func (this *BaseBinary) ToValuesJson() []interface{} {
 				index++
 			}
 		}
-
 	}
 	return result
+}
+
+func (this *BaseBinary) String() string {
+	return fmt.Sprintf("BaseBinary ArrayLen:%d,OneDataBitNum:%d Data:%+v", this.ArrayLen, this.OneDataBitNum, this.Data)
+}
+
+// 实现driver.Valuer接口
+func (this *BaseBinary) Value() (driver.Value, error) {
+	return this.Data, nil
+}
+
+// 实现sql.Scanner接口
+func (this *BaseBinary) Scan(val interface{}) (err error) {
+	if d, ok := val.([]uint8); ok {
+		this.Data = d
+		this.ArrayLen = len(this.Data)
+	} else {
+		err = errors.New("sql.Scanner Scan val is not []uint8.")
+	}
+	return
 }
