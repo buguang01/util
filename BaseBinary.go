@@ -102,7 +102,7 @@ func (this *BaseBinary) String() string {
 }
 
 // 实现driver.Valuer接口
-func (this *BaseBinary) Value() (driver.Value, error) {
+func (this BaseBinary) Value() (driver.Value, error) {
 	return this.Data, nil
 }
 
