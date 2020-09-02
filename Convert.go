@@ -25,11 +25,22 @@ func ToString(v interface{}) string {
 		return d
 	case int:
 		return strconv.Itoa(d)
-
+	case int8:
+		return strconv.FormatInt(int64(d), 10)
+	case int16:
+		return strconv.FormatInt(int64(d), 10)
+	case int32:
+		return strconv.FormatInt(int64(d), 10)
 	case int64:
 		return strconv.FormatInt(d, 10)
+	case float32:
+		return strconv.FormatFloat(float64(d), 'f', -1, 64)
 	case float64:
-		return strconv.FormatFloat(d, 'g', -1, 64)
+		return strconv.FormatFloat(d, 'f', -1, 64)
+	case bool:
+		return strconv.FormatBool(d)
+	case uint, uint8, uint16, uint32, uint64:
+		return strconv.FormatUint(d.(uint64), 10)
 	}
 	panic(fmt.Sprintf("%#v to string fail.", v))
 
