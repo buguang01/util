@@ -62,19 +62,37 @@ func NewStringBool(b bool) *String {
 
 func NewStringAny(f interface{}) *String {
 	var str *String
-	switch f.(type) {
+	switch v := f.(type) {
 	case string:
-		str = NewString(f.(string))
+		str = NewString(v)
 	case int:
-		str = NewStringInt(f.(int))
-	case int8, int16, int32, int64:
-		str = NewStringInt64(f.(int64))
-	case float32, float64:
-		str = NewStringFloat64(f.(float64))
+		str = NewStringInt(v)
+	case int8:
+		str = NewStringInt64(int64(v))
+	case int16:
+		str = NewStringInt64(int64(v))
+	case int32:
+		str = NewStringInt64(int64(v))
+	case int64:
+		str = NewStringInt64(int64(v))
+	case float32:
+		str = NewStringFloat64(float64(v))
+	case float64:
+		str = NewStringFloat64(v)
 	case bool:
-		str = NewStringBool(f.(bool))
-	case uint, uint8, uint16, uint32, uint64:
-		str = &String{value: (strconv.FormatUint(f.(uint64), 10))}
+		str = NewStringBool(v)
+	case uint:
+		str = &String{value: (strconv.FormatUint(uint64(v), 10))}
+	case uint8:
+		str = &String{value: (strconv.FormatUint(uint64(v), 10))}
+	case uint16:
+		str = &String{value: (strconv.FormatUint(uint64(v), 10))}
+	case uint32:
+		str = &String{value: (strconv.FormatUint(uint64(v), 10))}
+	case uint64:
+		str = &String{value: (strconv.FormatUint(v, 10))}
+	case fmt.Stringer:
+		str = NewString(v.String())
 	}
 	return str
 }
