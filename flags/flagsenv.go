@@ -26,11 +26,11 @@ type FlagModel struct {
 	Default  string
 }
 
-//设置要读的参数
-//flagname 命令行参数
-//envname 环境参数
-//note 命令行描述信息
-//def 默认值
+// 设置要读的参数
+// flagname 命令行参数
+// envname 环境参数
+// note 命令行描述信息
+// def 默认值
 func SetFlag(flagname, envname, note, def string) {
 	m := &FlagModel{
 		FlagName: flagname,
@@ -49,12 +49,12 @@ func SetFlag(flagname, envname, note, def string) {
 }
 
 func Parse() {
-	flag.Parse()
 	for _, m := range envmap {
 		if v, ok := os.LookupEnv(m.EnvName); ok {
 			m.Val = v
 		}
 	}
+	flag.Parse()
 }
 
 func GetFlagByInt(name string) int {
@@ -80,7 +80,8 @@ func GetFlagByFloat64(name string) float64 {
 
 func GetFlagBySlice(name string) []string {
 	if m, ok := flagmap[name]; ok {
-		return strings.Split(util.NewString(m.Val).ToString(), ",")
+		m.Val = strings.ReplaceAll(m.Val, " ", ",")
+		return strings.Split(m.Val, ",")
 	}
 	return []string{}
 }
@@ -115,7 +116,8 @@ func GetEnvByFloat64(name string) float64 {
 
 func GetEnvBySlice(name string) []string {
 	if m, ok := envmap[name]; ok {
-		return strings.Split(util.NewString(m.Val).ToString(), ",")
+		m.Val = strings.ReplaceAll(m.Val, " ", ",")
+		return strings.Split(m.Val, ",")
 	}
 	return []string{}
 }
