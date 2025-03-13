@@ -64,6 +64,13 @@ func GetFlagByInt(name string) int {
 	return 0
 }
 
+func GetFlagByUint(name string) uint {
+	if m, ok := flagmap[name]; ok {
+		return uint(util.NewString(m.Val).ToUint64V())
+	}
+	return 0
+}
+
 func GetFlagByString(name string) string {
 	if m, ok := flagmap[name]; ok {
 		return m.Val
